@@ -5,18 +5,23 @@ const repository = core.getInput('repository');
 var owner = core.getInput('owner');
 var repo = core.getInput('repo');
 var excludes = core.getInput('excludes').trim().split(",");
+var token = core.getInput('token');
 
-const octokit = new Octokit()
+var options = {};
+if (token) {
+    options.auth = token;
+}
+const octokit = new Octokit(options)
 
 async function run() {
     try {
-        if (repository){
-                [owner, repo] = repository.split("/");
+        if (repository) {
+            [owner, repo] = repository.split("/");
         }
-        var releases  = await octokit.repos.listReleases({
+        var releases = await octokit.repos.listReleases({
             owner: owner,
             repo: repo,
-            });
+        });
         releases = releases.data;
         if (excludes.includes('prerelease')) {
             releases = releases.filter(x => x.prerelease != true);
