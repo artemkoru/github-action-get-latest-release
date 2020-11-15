@@ -13,6 +13,9 @@ inputs:
   repository:
     description: 'The repository name in full'
     required: false
+  token:
+    description: 'GitHub token'
+    required: false
   excludes:
     description: 'Types of releases to exclude (e.g. pre-release)'
     required: false
